@@ -1,11 +1,13 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <!--  <LoginVue/> -->
+  <!--  <LayoutVue/> -->
+  <router-view></router-view>
 </template>
 
-<style scoped></style>
+<script setup>
+// 无需额外代码，路由会自动渲染对应组件
+</script>
+
+<style scoped>
+/* 可以添加全局样式 */
+</style>
