@@ -44,9 +44,9 @@ const updateAdminInfo = async ()=>{
         </template>
         <el-row>
             <el-col :span="12">
-                <el-form :model="userInfo" :rules="rules" label-width="100px" size="large">
+                <el-form :model="adminInfo" :rules="rules" label-width="100px" size="large">
                     <el-form-item label="登录名称">
-                        <el-input v-model="userInfo.username" disabled></el-input>
+                        <el-input v-model="adminInfo.username" disabled></el-input>
                     </el-form-item>
                     <el-form-item label="管理员昵称" prop="nickname">
                         <el-input v-model="adminInfo.nickname"></el-input>
