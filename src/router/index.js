@@ -3,9 +3,9 @@ import LoginVue from '@/views/Login.vue';
 import LayoutVue from '@/views/Layout.vue';
 import ArticleCategoryVue from '@/views/article/ArticleCategory.vue';
 import ArticleManageVue from '@/views/article/ArticleManage.vue';
-import UserInfoVue from '@/views/user/UserInfo.vue';
-import UserAvatarVUe from '@/views/user/UserAvatar.vue';
-import UserResetPasswordVue from '@/views/user/UserResetPassword.vue';
+import AdminInfoVue from '@/views/admin/AdminInfo.vue';
+import AdminAvatarVUe from '@/views/admin/AdminAvatar.vue';
+import AdminResetPasswordVue from '@/views/admin/AdminResetPassword.vue';
 
 const routes = [
     { path: '/login', component: LoginVue },
@@ -13,9 +13,9 @@ const routes = [
         children: [
             { path: '/article/category', component: ArticleCategoryVue },
             { path: '/article/manage', component: ArticleManageVue },
-            { path: '/user/info', component: UserInfoVue },
-            { path: '/user/avatar', component: UserAvatarVUe },
-            { path: '/user/resetPassword', component: UserResetPasswordVue,
+            { path: '/admin/info', component: AdminInfoVue },
+            { path: '/admin/avatar', component: AdminAvatarVUe },
+            { path: '/admin/resetPassword', component: AdminResetPasswordVue,
                 meta: { requiresAuth: true, title: '更新密码' }
             }
         ]

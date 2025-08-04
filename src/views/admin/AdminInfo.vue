@@ -17,19 +17,19 @@ const rules = {
 }
 
 
-import { useUserInfoStore } from '@/stores/userinfo.js';
-const userInfoStore = useUserInfoStore()
-const userInfo = ref({...userInfoStore.info})
+import { useAdminInfoStore } from '@/stores/admininfo.js';
+const adminInfoStore = useAdminInfoStore()
+const adminInfo = ref({...adminInfoStore.info})
 
-//修改用户信息
-import {userInfoUpdateService} from '@/api/user.js'
+//修改管理员信息
+import {adminInfoUpdateService} from '@/api/admin.js'
 import { ElMessage } from 'element-plus';
-const updateUserInfo = async ()=>{
-    let result = await userInfoUpdateService(userInfo.value)
+const updateAdminInfo = async ()=>{
+    let result = await adminInfoUpdateService(adminInfo.value)
     ElMessage.success(result.message? result.message:'修改成功')
     //更新pinia中的数据
-    userInfoStore.info.nickname=userInfo.value.nickname
-    userInfoStore.info.email = userInfo.value.email
+    adminInfoStore.info.nickname=adminInfo.value.nickname
+    adminInfoStore.info.email = adminInfo.value.email
 }
 
 
@@ -48,14 +48,14 @@ const updateUserInfo = async ()=>{
                     <el-form-item label="登录名称">
                         <el-input v-model="userInfo.username" disabled></el-input>
                     </el-form-item>
-                    <el-form-item label="用户昵称" prop="nickname">
-                        <el-input v-model="userInfo.nickname"></el-input>
+                    <el-form-item label="管理员昵称" prop="nickname">
+                        <el-input v-model="adminInfo.nickname"></el-input>
                     </el-form-item>
-                    <el-form-item label="用户邮箱" prop="email">
-                        <el-input v-model="userInfo.email"></el-input>
+                    <el-form-item label="管理员邮箱" prop="email">
+                        <el-input v-model="adminInfo.email"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="updateUserInfo">提交修改</el-button>
+                        <el-button type="primary" @click="updateAdminInfo">提交修改</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>

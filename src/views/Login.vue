@@ -201,10 +201,10 @@ onMounted(() => {
 })
 
 //调用后台接口，完成注册和登录
-import { userRegisterService, userLoginService } from '@/api/user.js'
+import { adminRegisterService, adminLoginService } from '@/api/admin.js'
 
 const register = async () => {
-    let result = await userRegisterService(registerData.value);
+    let result = await adminRegisterService(registerData.value);
     ElMessage.success(result.msg ? result.msg : '注册成功')
 }
 
@@ -225,7 +225,7 @@ const login = async () => {
             username: loginData.value.username,
             password: loginData.value.password
         }
-        let result = await userLoginService(loginParams)
+        let result = await adminLoginService(loginParams)
         // 保存token
         tokenStore.setToken(result.data)
         ElMessage.success(result.msg ? result.msg : '登录成功')

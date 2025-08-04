@@ -13,21 +13,21 @@ import avatar from '@/assets/default.png'
 
 
 //导入接口函数
-import {userInfoGetService} from '@/api/user.js'
+import {adminInfoGetService} from '@/api/admin.js'
 //导入pinia
-import {useUserInfoStore} from '@/stores/userinfo.js'
+import {useAdminInfoStore} from '@/stores/admininfo.js'
 import { useTokenStore } from '@/stores/token.js'
 const tokenStore = useTokenStore();
-const userInfoStore = useUserInfoStore();
+const adminInfoStore = useAdminInfoStore();
 import {ref} from 'vue'
 
 //获取个人信息
-const getUserInf = async ()=>{
-    let result = await userInfoGetService();
+const getAdminInf = async ()=>{
+    let result = await adminInfoGetService();
     //存储pinia
-    userInfoStore.info =result.data;
+    adminInfoStore.info =result.data;
 }
-getUserInf()
+getAdminInf()
 
 //dropDown条目被点击后，回调的函数
 import {useRouter} from 'vue-router'
@@ -49,7 +49,7 @@ const handleCommand = (command)=>{
                 //用户点击了确认
                 //清空pinia中的token和个人信息
                 tokenStore.removeToken()
-                userInfoStore.removeInfo()
+                adminInfoStore.removeInfo()
                 
                 //跳转到登录页
                 router.push('/login')
@@ -63,7 +63,7 @@ const handleCommand = (command)=>{
             })
     }else{
         //路由
-        router.push('/user/'+command)
+        router.push('/admin/'+command)
     }
 }
 
@@ -96,19 +96,19 @@ const handleCommand = (command)=>{
                         </el-icon>
                         <span>个人中心</span>
                     </template>
-                    <el-menu-item index="/user/info">
+                    <el-menu-item index="/admin/info">
                         <el-icon>
                             <User />
                         </el-icon>
                         <span>基本资料</span>
                     </el-menu-item>
-                    <el-menu-item index="/user/avatar">
+                    <el-menu-item index="/admin/avatar">
                         <el-icon>
                             <Crop />
                         </el-icon>
                         <span>更换头像</span>
                     </el-menu-item>
-                    <el-menu-item index="/user/resetPassword">
+                    <el-menu-item index="/admin/resetPassword">
                         <el-icon>
                             <EditPen />
                         </el-icon>
@@ -121,13 +121,13 @@ const handleCommand = (command)=>{
         <el-container>
             <!-- 头部区域 -->
             <el-header>
-                <div>您的用户昵称为：<strong>{{ userInfoStore.info.nickname ? userInfoStore.info.nickname :
-                        userInfoStore.info.usrename }}
+                <div>您的用户昵称为：<strong>{{ adminInfoStore.info.nickname ? adminInfoStore.info.nickname :
+                        adminInfoStore.info.usrename }}
                     </strong></div>
 
                 <el-dropdown placement="bottom-end" @command="handleCommand">
                     <span class="el-dropdown__box">
-                        <el-avatar :src="userInfoStore.info.userPic ? userInfoStore.info.userPic : avatar" />
+                        <el-avatar :src="adminInfoStore.info.userPic ? adminInfoStore.info.userPic : avatar" />
                         <el-icon>
                             <CaretBottom />
                         </el-icon>

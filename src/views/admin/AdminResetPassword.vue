@@ -32,7 +32,7 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
-import { updateUserPassword } from '@/api/user';
+import { updateAdminPassword } from '@/api/admin.js';
 import { useRouter } from 'vue-router';
 
 // 表单数据
@@ -75,7 +75,7 @@ const handleUpdatePassword = () => {
   passwordFormRef.value.validate(async (valid) => {
     if (valid) {
       try {
-        const response = await updateUserPassword({
+        const response = await updateAdminPassword({
           old_Pwd: passwordForm.old_pwd,
           new_Pwd: passwordForm.new_pwd,
           re_Pwd: passwordForm.re_pwd

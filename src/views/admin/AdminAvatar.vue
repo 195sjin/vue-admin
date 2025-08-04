@@ -4,17 +4,17 @@ import {ref} from 'vue'
 import avatar from '@/assets/default.png'
 const uploadRef = ref()
 
-//读取用户信息
-import {useUserInfoStore} from '@/stores/userinfo.js'
-const userInfoStore = useUserInfoStore()
+//读取管理员信息
+import {useAdminInfoStore} from '@/stores/admininfo.js'
+const adminInfoStore = useAdminInfoStore()
 
 
 //读取token信息
 import {useTokenStore} from '@/stores/token.js'
 const tokenStore = useTokenStore()
 
-//用户头像地址
-const imgUrl=ref(userInfoStore.info.userPic)
+//管理员头像地址
+const imgUrl=ref(adminInfoStore.info.adminPic)
 //图片上传成功的回调
 const uploadSuccess = (result)=>{
     //回显图片
@@ -22,13 +22,13 @@ const uploadSuccess = (result)=>{
 }
 
 //调用接口，更新头像url
-import {userAvatarUpdateService} from '@/api/user.js'
+import {adminAvatarUpdateService} from '@/api/admin.js'
 import {ElMessage} from 'element-plus'
 const updateAvatar = async ()=>{
-    let result = await userAvatarUpdateService(imgUrl.value)
+    let result = await adminAvatarUpdateService(imgUrl.value)
     ElMessage.success(result.message? result.message:'修改成功')
     //更新pinia中的数据
-    userInfoStore.info.userPic=imgUrl.value
+    adminInfoStore.info.adminPic=imgUrl.value
 }
 
 
