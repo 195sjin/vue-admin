@@ -7,7 +7,7 @@ import {
 
 import { ref } from 'vue'
 
-//文章分类数据模型
+//作品分类数据模型
 const categorys = ref([
     {
         "id": 3,
@@ -38,7 +38,7 @@ const categoryId=ref('')
 //用户搜索时选中的发布状态
 const state=ref('')
 
-//文章列表数据模型
+//作品列表数据模型
 const articles = ref([
     {
         "id": 5,
@@ -88,7 +88,7 @@ const onCurrentChange = (num) => {
     getArticles()
 }
 
-//文章列表查询
+//作品列表查询
 import { articleCategoryListService, articleListService, articleAddService, articleDetailService, articleUpdateService, articleDeleteService, articleAdviceService } from '@/api/article.js'
 const getArticleCategoryList = async () => {
     //获取所有分类
@@ -99,7 +99,7 @@ const getArticleCategoryList = async () => {
 import { ElMessage } from 'element-plus'
 
 
-//文章列表查询
+//作品列表查询
 const getArticles = async () => {
     let params = {
         pageNum: pageNum.value,
@@ -140,23 +140,23 @@ const tokenStore = useTokenStore();
 
 
 
-// 文章详情相关变量
+// 作品详情相关变量
 const detailDialogVisible = ref(false)
 const articleDetail = ref({})
 
-// 查看文章详情方法
+// 查看作品详情方法
 // 2. 添加审批相关的状态变量
 const isAdmin = ref(true) // 实际项目中可能需要从store中获取管理员状态
 const approvalState = ref('')
 const approvalAdvice = ref('')
 
-// 3. 修改查看文章详情方法，添加审批相关逻辑
+// 3. 修改查看作品详情方法，添加审批相关逻辑
 const viewArticleDetail = async (id) => {
   try {
     const result = await articleDetailService(id)
     articleDetail.value = result.data
     
-    // 添加文章分类名称
+    // 添加作品分类名称
     for(let j=0;j<categorys.value.length;j++){
       if(articleDetail.value.categoryId === categorys.value[j].id){
         articleDetail.value.categoryName = categorys.value[j].categoryName
@@ -174,7 +174,7 @@ const viewArticleDetail = async (id) => {
     approvalState.value = ''
     approvalAdvice.value = ''
   } catch (error) {
-    ElMessage.error('获取文章详情失败')
+    ElMessage.error('获取作品详情失败')
   }
 }
 
@@ -185,14 +185,14 @@ const submitApproval = async () => {
     return
   }
   try {
-    // 直接使用已有的 articleDetail.value.id 作为文章ID
+    // 直接使用已有的 articleDetail.value.id 作为作品ID
     await articleAdviceService(
       articleDetail.value.id, 
       approvalState.value, 
       approvalAdvice.value || ''
     )
     ElMessage.success('审批成功')
-    // 刷新文章详情和列表
+    // 刷新作品详情和列表
     await viewArticleDetail(articleDetail.value.id)
     getArticles()
   } catch (error) {
@@ -212,9 +212,9 @@ const submitApproval = async () => {
             </div>
         </template>
         
-        <!-- 文章列表 -->
+        <!-- 作品列表 -->
         <el-table :data="articles" style="width: 100%">
-            <el-table-column label="文章标题" width="400" prop="title"></el-table-column>
+            <el-table-column label="作品标题" width="400" prop="title"></el-table-column>
             <el-table-column label="作者" prop="userName"></el-table-column>
             <el-table-column label="分类" prop="categoryName"></el-table-column>
             <el-table-column label="发表时间" prop="createTime"> </el-table-column>
@@ -234,13 +234,13 @@ const submitApproval = async () => {
             layout="jumper, total, sizes, prev, pager, next" background :total="total" @size-change="onSizeChange"
             @current-change="onCurrentChange" style="margin-top: 20px; justify-content: flex-end" />
 
-        <!-- 文章详情弹窗 -->
-        <el-dialog v-model="detailDialogVisible" title="文章详情" width="50%">
+        <!-- 作品详情弹窗 -->
+        <el-dialog v-model="detailDialogVisible" title="作品详情" width="50%">
           <el-form :model="articleDetail" label-width="100px">
-            <el-form-item label="文章标题">
+            <el-form-item label="作品标题">
               <el-input v-model="articleDetail.title" disabled></el-input>
             </el-form-item>
-            <el-form-item label="文章分类">
+            <el-form-item label="作品分类">
               <el-input v-model="articleDetail.categoryName" disabled></el-input>
             </el-form-item>
             <el-form-item label="发表时间">
@@ -253,7 +253,7 @@ const submitApproval = async () => {
               <img v-if="articleDetail.coverImg" :src="articleDetail.coverImg" style="width: 200px; height: 150px; object-fit: cover;">
               <span v-else>无封面图片</span>
             </el-form-item>
-            <el-form-item label="文章内容">
+            <el-form-item label="作品内容">
               <div v-html="articleDetail.content" style="min-height: 200px;"></div>
             </el-form-item>
             
