@@ -207,7 +207,7 @@ const submitApproval = async () => {
     <el-card class="page-container">
         <template #header>
             <div class="header">
-                <span>文章管理</span>
+                <span>已审批列表</span>
                 
             </div>
         </template>
