@@ -249,11 +249,11 @@ const submitApproval = async () => {
             <el-form-item label="状态">
               <el-input v-model="articleDetail.state" disabled></el-input>
             </el-form-item>
-            <el-form-item label="封面图片">
+            <el-form-item label="作品">
               <img v-if="articleDetail.coverImg" :src="articleDetail.coverImg" style="width: 200px; height: 150px; object-fit: cover;">
-              <span v-else>无封面图片</span>
+              <span v-else>无作品</span>
             </el-form-item>
-            <el-form-item label="作品内容">
+            <el-form-item label="作品描述">
               <div v-html="articleDetail.content" style="min-height: 200px;"></div>
             </el-form-item>
             
