@@ -89,7 +89,7 @@ const onCurrentChange = (num) => {
 }
 
 //文章列表查询
-import { articleCategoryListService, articleListService, articleAddService, articleDetailService, articleUpdateService, articleDeleteService } from '@/api/article.js'
+import { articleCategoryListService, articleListService, articleAddService, articleDetailService, articleUpdateService, articleDeleteService, articleAdviceService } from '@/api/article.js'
 const getArticleCategoryList = async () => {
     //获取所有分类
     let resultC = await articleCategoryListService();
@@ -145,6 +145,12 @@ const detailDialogVisible = ref(false)
 const articleDetail = ref({})
 
 // 查看文章详情方法
+// 2. 添加审批相关的状态变量
+const isAdmin = ref(true) // 实际项目中可能需要从store中获取管理员状态
+const approvalState = ref('')
+const approvalAdvice = ref('')
+
+// 3. 修改查看文章详情方法，添加审批相关逻辑
 const viewArticleDetail = async (id) => {
   try {
     const result = await articleDetailService(id)
@@ -164,10 +170,37 @@ const viewArticleDetail = async (id) => {
     }
     
     detailDialogVisible.value = true
+    // 重置审批表单
+    approvalState.value = ''
+    approvalAdvice.value = ''
   } catch (error) {
     ElMessage.error('获取文章详情失败')
   }
 }
+
+// 4. 添加提交审批的方法
+const submitApproval = async () => {
+  if (!approvalState.value) {
+    ElMessage.warning('请选择审批状态')
+    return
+  }
+  try {
+    // 直接使用已有的 articleDetail.value.id 作为文章ID
+    await articleAdviceService(
+      articleDetail.value.id, 
+      approvalState.value, 
+      approvalAdvice.value || ''
+    )
+    ElMessage.success('审批成功')
+    // 刷新文章详情和列表
+    await viewArticleDetail(articleDetail.value.id)
+    getArticles()
+  } catch (error) {
+    ElMessage.error('审批失败: ' + error.message)
+  }
+}
+
+
 
 </script>
 <template>
@@ -222,6 +255,23 @@ const viewArticleDetail = async (id) => {
             </el-form-item>
             <el-form-item label="文章内容">
               <div v-html="articleDetail.content" style="min-height: 200px;"></div>
+            </el-form-item>
+            
+            <!-- 5. 添加审批表单部分 -->
+            <el-divider v-if="isAdmin"></el-divider>
+            <el-form-item v-if="isAdmin" label="审批操作">
+              <el-radio-group v-model="approvalState" style="margin-bottom: 10px;">
+                <el-radio label="审批成功">审批通过</el-radio>
+                <el-radio label="审批失败">审批不通过</el-radio>
+              </el-radio-group>
+              <el-input
+                type="textarea"
+                v-model="approvalAdvice"
+                placeholder="请输入审批意见"
+                rows="4"
+                style="margin-bottom: 10px;"
+              ></el-input>
+              <el-button type="primary" @click="submitApproval">提交审批</el-button>
             </el-form-item>
           </el-form>
         </el-dialog>

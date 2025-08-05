@@ -46,3 +46,8 @@ export const articleUpdateService = (articleModel) => {
 export const articleDeleteService = (id) => {
   return request.delete('/article?id=' + id)
 }
+// 修改文章审批API函数
+export const articleAdviceService = (id, state, advice) => {
+  // 确保参数被正确传递
+  return request.put('/article/advice', { id, state, advice })
+}
